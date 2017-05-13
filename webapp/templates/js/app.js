@@ -161,9 +161,9 @@ $(function() {
       $("#upload_status, #upload_result").html("");
     };
 
-    var upload_snapshot = function() {
-      var api_url = $("#api_url").val();
-
+    var upload_snapshot = function() {      
+      var imageData = $('image').cropper('getCroppedCanvas').toDataURL();
+      var json = {image : imageData};
       if (!api_url.length) {
         $("#upload_status").html("Please provide URL for the upload");
         return;
@@ -172,9 +172,25 @@ $(function() {
       clear_upload_data();
       $("#loader").show();
       $("#upload_snapshot").prop("disabled", true);
-
-      var snapshot = $(".item.selected").data("snapshot");
-      snapshot.upload({api_url: api_url}).done(upload_done).fail(upload_fail);
+      $.ajax({
+            contentType: 'application/json',
+            data: JSON.stringify(json),
+            dataType: 'json',
+            success: function(data){
+                app.log("device control succeeded");
+                upload_done(data);
+            },
+            error: function(){
+                app.log("Device control failed");
+                upload_fail();
+            },
+            processData: false,
+            type: 'POST',
+            url: 'localhost:5000/'
+        });
+      //var snapshot = $(".item.selected").data("snapshot");
+       
+      //snapshot.upload({api_url: api_url}).done(upload_done).fail(upload_fail);
     };
 
     var upload_done = function(response) {
@@ -235,9 +251,9 @@ $(function() {
     $("#show_stream").click(show_stream);
     
     var options = {
-      shutter_ogg_url: "../dist/shutter.ogg",
-      shutter_mp3_url: "../dist/shutter.mp3",
-      swf_url: "../dist/jpeg_camera.swf"
+      shutter_ogg_url: "../jpeg_camera/shutter.ogg",
+      shutter_mp3_url: "../jpeg_camera/shutter.mp3",
+      swf_url: "../jpeg_camera/jpeg_camera.swf"
     }
 
     camera = new JpegCamera("#camera", options).ready(function(info) {
