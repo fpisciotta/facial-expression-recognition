@@ -177,3 +177,72 @@ main footer p {
   width: 300px;
   float: left;
 }
+
+#camera {
+  display: inline-block;
+  background-color: #eee;
+  width: 250px;
+  height: 300px;
+  margin: 0.5em;
+
+}
+
+.parent {   
+  width: 100%; 
+  margin: 0 auto;
+  border-radius: 10px;
+  padding: 10px;
+}
+.row { 
+  width: 100%;
+  letter-spacing: -0.31em;
+}
+.col1, .col2, .col3 { 
+  display: inline-block;
+  vertical-align: top;
+  padding: 5px;
+  margin: 5px 0.5%;
+}
+.col1 {
+  width: 10%;
+}
+.col2 {
+  width: 50%;
+}
+.col3 {
+  width: 30%;
+}
+
+#camera .placeholder {
+  padding: 0.5em;
+}
+
+#snapshots {
+  height: 300px;
+  margin: 0.5em 0;
+  padding-left: : 3px;
+
+
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#snapshots canvas, #snapshots img {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+
+  height: 100%;
+  border: 3px solid transparent;
+}
+
+#snapshots .selected {
+  border: 3px solid #000;
+}
+
+img {
+  max-width: 100%; /* This rule is very important, please do not ignore this! */
+}
