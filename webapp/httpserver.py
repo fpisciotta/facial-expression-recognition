@@ -5,6 +5,7 @@ import base64
 from PIL import Image
 from log import load_model
 from keras.models import model_from_json
+import numpy as np
 
 # set the project root directory as the static folder, you can set others.
 app = Flask(__name__, static_url_path='/templates')
@@ -17,8 +18,8 @@ def get_home():
 @app.route('/api/evaluate', methods=['POST'])
 def hello():
     try:
-        json = request.get_json(silent=True)  
-        image_str = json['image']
+        json_request = request.get_json(silent=True)  
+        image_str = json_request['image']
         image_str = image_str[image_str.find(",")+1:]
         byte_string = bytes(image_str, 'cp1252')
         #with open("test-64.txt", 'w') as f:
@@ -37,7 +38,7 @@ def hello():
                           
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-        y = model.predict(data, batch_size=batch_size, verbose=1)
+        y = model.predict(data, batch_size=128, verbose=1)
         print(y);
 
     except Exception as error:
