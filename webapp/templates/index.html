@@ -9,19 +9,26 @@
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-  <script src="js/jpeg_camera/jpeg_camera_with_dependencies.min.js" type="text/javascript"></script>  
-  <script src="js/jpeg_camera.js" type="text/javascript"></script>
-  
-  <script src="js/cropper/cropper.js"></script>     
-  <link  href="js/cropper/cropper.css" rel="stylesheet">
+  <script src="../static/js/jpeg_camera/jpeg_camera_with_dependencies.min.js" type="text/javascript"></script>  
+  <script src="../static/js/jpeg_camera/jpeg_camera.js'" type="text/javascript"></script>
+
+  <script src="../static/js/chartist/chartist.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+  <script src="../static/js/cropper/cropper.js"></script>       
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-
+  <link  href="../static/js/cropper/cropper.css" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/style.css">
-
+  <link rel="stylesheet" href="../static/css/style.css">
+  <link rel="stylesheet"
+          href="../static/js/chartist/chartist.min.css">
 </head>
 
 <body>
+
 <div class="header_banner">
 <h2>House Price Prediction</h2>
 </div>
@@ -48,13 +55,14 @@
               </div>
                   
             </div>
-            <button id="take_snapshots">Take more snapshots</button>
+            <button id="take_snapshots">Take a snapshot</button>
             </div>
             <div class="col3">
             <div>
-              <div id="snapshots"></div>
-              <button id="discard_snapshot">Discard snapshot</button>
-              <button id="upload_snapshot">Upload to URL</button><br>
+              
+              	<div id="snapshots"></div>   
+                         
+              <button id="upload_snapshot">Upload</button><br>
               </div>
             </div>
           </div>
@@ -64,14 +72,24 @@
 
       
       
+      
     </div>
+    
+    	<div class="container">
+  			<div id="chartist-chart" class="ct-chart"></div>
+  			<!--div id="myfirstchart" style="height: 250px;"></div-->
+  			<div id="chart_div"  style="height: 250px;"></div>
+		</div>
+		<br/>
+    </main>
     <footer>
       <p>&copy; 2017 by Team 1 @ CMPE 297-2, SJSU</p>
     </footer>
   </main>
   
 </div>
+	
 
 </body>
 </html>
-<script src="js/app.js"></script>
+<script src="../static/js/app.js"></script>

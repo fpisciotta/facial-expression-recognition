@@ -24,7 +24,7 @@ y_train = to_categorical(y_train)
 y_test = to_categorical(y_test)
 # params:
 batch_size = 128
-nb_epoch = 2
+nb_epoch = 50
 
 # setup info:
 print ('X_train shape: ', X_train.shape) # (n_sample, 1, 48, 48)
@@ -36,19 +36,19 @@ print ('Lengths: ', len(X_train) ,len(y_train))
 print ('Target: ', y_train)
 # model architecture:
 model = Sequential()
-model.add(Conv2D(32, 3, 3, border_mode='same',activation='relu',input_shape=(1, X_train.shape[2], X_train.shape[3])))
-model.add(Conv2D(32, 3, 3, border_mode='same', activation='relu'))
-model.add(Conv2D(32, 3, 3, border_mode='same', activation='relu'))
+model.add(Conv2D(48, 3, 3, border_mode='same',activation='relu',input_shape=(1, X_train.shape[2], X_train.shape[3])))
+model.add(Conv2D(48, 3, 3, border_mode='same', activation='relu'))
+model.add(Conv2D(48, 3, 3, border_mode='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
 
-model.add(Conv2D(64, 3, 3, border_mode='same', activation='relu'))
-model.add(Conv2D(64, 3, 3, border_mode='same', activation='relu'))
-model.add(Conv2D(64, 3, 3, border_mode='same', activation='relu'))
+model.add(Conv2D(96, 3, 3, border_mode='same', activation='relu'))
+model.add(Conv2D(96, 3, 3, border_mode='same', activation='relu'))
+model.add(Conv2D(96, 3, 3, border_mode='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
 
-model.add(Conv2D(128, 3, 3, border_mode='same', activation='relu'))
-model.add(Conv2D(128, 3, 3, border_mode='same', activation='relu'))
-model.add(Conv2D(128, 3, 3, border_mode='same', activation='relu'))
+model.add(Conv2D(144, 3, 3, border_mode='same', activation='relu'))
+model.add(Conv2D(144, 3, 3, border_mode='same', activation='relu'))
+model.add(Conv2D(144, 3, 3, border_mode='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
 
 model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors

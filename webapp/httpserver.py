@@ -1,4 +1,4 @@
-from flask import Flask, request, send_from_directory
+from flask import Flask, request, send_from_directory, render_template
 import analyzer as core_analysis
 import json
 import base64
@@ -8,12 +8,12 @@ from keras.models import model_from_json
 import numpy as np
 
 # set the project root directory as the static folder, you can set others.
-app = Flask(__name__, static_url_path='/templates')
+app = Flask(__name__, static_url_path='/static')
 # ana = core_analysis.HPAnalysis();
 
 @app.route('/')
 def get_home():
-    return app.send_static_file('templates/index.html')
+    return render_template("index.html")
 
 @app.route('/api/evaluate', methods=['POST'])
 def hello():
@@ -48,13 +48,9 @@ def hello():
 def get_pics(path):
     return send_from_directory('pics', path)
 
-@app.route('/<path:path>')
-def get_static(path):
-    return send_from_directory('templates', path)
-
 @app.errorhandler(Exception)
 def exception_handler(error):
-    return "!!!!"  + repr(error);
+    return repr(error);
 
 @app.after_request
 def add_header(r):

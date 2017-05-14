@@ -6,12 +6,12 @@ lib-cov
 *.out
 *.pid
 *.gz
-
+*.jpg
 .DS_Store
 
 pids
 logs
-results
+
 
 __pycache__
 
