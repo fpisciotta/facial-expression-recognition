@@ -1,30 +1,59 @@
-from flask import Flask, request, render_template
-from flask_uploads import UploadSet, configure_uploads, ALL
+from flask import Flask, request, send_from_directory
 import analyzer as core_analysis
 import json
+import base64
+from PIL import Image
+from log import load_model
+from keras.models import model_from_json
 
 # set the project root directory as the static folder, you can set others.
 app = Flask(__name__, static_url_path='/templates')
-app.config['UPLOADED_FILES_DEST'] = 'uploads'
-files = UploadSet('files', ALL)
-configure_uploads(app, files)
-
-# the core engine to analyze images
 # ana = core_analysis.HPAnalysis();
 
-# @app.route('/')
-# def get_home():
-#     return app.send_static_file('index.html')
+@app.route('/')
+def get_home():
+    return app.send_static_file('templates/index.html')
 
-@app.route('/', methods=['GET', 'POST'])
-def post_image():
-    if request.method == 'POST' and 'media' in request.files:
-        filename = files.save(request.files['media'])
-        print(filename)
+@app.route('/api/evaluate', methods=['POST'])
+def hello():
+    try:
+        json = request.get_json(silent=True)  
+        image_str = json['image']
+        image_str = image_str[image_str.find(",")+1:]
+        byte_string = bytes(image_str, 'cp1252')
+        #with open("test-64.txt", 'w') as f:
+            #f.write(image_str)
+        image_64_decode = base64.decodestring(byte_string) 
+        with open("test.jpg","wb") as f:
+            f.write(image_64_decode)
+        #jpgfile = Image.open("test.jpg").convert('LA');
+        img = Image.open('test.jpg').convert('L')
+        img.thumbnail((48,48), Image.ANTIALIAS)        
+        data = np.asarray(img.getdata()).reshape(img.size)
+        print(data.shape)
+        data = data.reshape(-1, 1, data.shape[0], data.shape[1])
         
-    # return app.send_static_file('index.html')
-    return render_template('index.html')
+        model = load_model('model.json');
+                          
+        model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
+        y = model.predict(data, batch_size=batch_size, verbose=1)
+        print(y);
+
+    except Exception as error:
+        return json.dumps({'success':False, 'message' : repr(error)}), 500, {'ContentType':'application/json'} 
+    return json.dumps({'success':True, 'prediction' : y.tolist()}), 200, {'ContentType':'application/json'} 
+@app.route('/pics/<path:path>')
+def get_pics(path):
+    return send_from_directory('pics', path)
+
+@app.route('/<path:path>')
+def get_static(path):
+    return send_from_directory('templates', path)
+
+@app.errorhandler(Exception)
+def exception_handler(error):
+    return "!!!!"  + repr(error);
 
 @app.after_request
 def add_header(r):
@@ -39,4 +68,5 @@ def add_header(r):
     return r
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
+

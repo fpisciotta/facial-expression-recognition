@@ -133,15 +133,10 @@ $(function() {
       $("#discard_snapshot, #upload_snapshot, #api_url").show();
       $('#image').cropper({
           aspectRatio: 1 / 1,
+          autoCrop: true,
           crop: function(e) {
             // Output the result data for cropping image.
-            console.log(e.x);
-            console.log(e.y);
-            console.log(e.width);
-            console.log(e.height);
-            console.log(e.rotate);
-            console.log(e.scaleX);
-            console.log(e.scaleY);
+            
           }
       });
       $container.animate({
@@ -162,13 +157,9 @@ $(function() {
     };
 
     var upload_snapshot = function() {      
-      var imageData = $('image').cropper('getCroppedCanvas').toDataURL();
+      var imageData = ($('#image')).cropper('getCroppedCanvas').toDataURL();
       var json = {image : imageData};
-      if (!api_url.length) {
-        $("#upload_status").html("Please provide URL for the upload");
-        return;
-      }
-
+      
       clear_upload_data();
       $("#loader").show();
       $("#upload_snapshot").prop("disabled", true);
@@ -177,16 +168,15 @@ $(function() {
             data: JSON.stringify(json),
             dataType: 'json',
             success: function(data){
-                app.log("device control succeeded");
+                //app.log("device control succeeded");
                 upload_done(data);
             },
-            error: function(){
-                app.log("Device control failed");
+            error: function(data){
+                //app.log("Device control failed");
                 upload_fail();
-            },
-            processData: false,
+            },            
             type: 'POST',
-            url: 'localhost:5000/'
+            url: '/api/evaluate'
         });
       //var snapshot = $(".item.selected").data("snapshot");
        

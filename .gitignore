@@ -13,4 +13,7 @@ pids
 logs
 results
 
-data/fer2013.csv
+__pycache__
+
+
+
