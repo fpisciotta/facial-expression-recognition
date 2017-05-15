@@ -4,6 +4,7 @@ import json
 import base64
 from PIL import Image
 from log import load_model
+from keras.optimizers import SGD
 from keras.models import model_from_json
 import numpy as np
 
@@ -35,10 +36,15 @@ def hello():
         data = data.reshape(-1, 1, data.shape[0], data.shape[1])
         
         model = load_model('model.json');
-                          
-        model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+        #sgd
+        lrate = 0.01
+        decay = lrate/50
+        sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
+        model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+        #adam                
+        #model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-        y = model.predict(data, batch_size=128, verbose=1)
+        y = model.predict(data)
         print(y);
 
     except Exception as error:

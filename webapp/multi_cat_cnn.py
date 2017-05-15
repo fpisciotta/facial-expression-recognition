@@ -2,6 +2,7 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
+from keras.constraints import maxnorm
 from keras.optimizers import SGD, RMSprop
 from keras.utils.np_utils import to_categorical
 from log import save_model, save_config, save_result
@@ -36,32 +37,59 @@ print ('Lengths: ', len(X_train) ,len(y_train))
 print ('Target: ', y_train)
 # model architecture:
 model = Sequential()
-model.add(Conv2D(48, 3, 3, border_mode='same',activation='relu',input_shape=(1, X_train.shape[2], X_train.shape[3])))
-model.add(Conv2D(48, 3, 3, border_mode='same', activation='relu'))
-model.add(Conv2D(48, 3, 3, border_mode='same', activation='relu'))
+model.add(Conv2D(32, (3, 3), input_shape=(1, X_train.shape[2], X_train.shape[3]), activation='relu', padding='same'))
+model.add(Dropout(0.2))
+model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
+model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
 model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
-
-model.add(Conv2D(96, 3, 3, border_mode='same', activation='relu'))
-model.add(Conv2D(96, 3, 3, border_mode='same', activation='relu'))
-model.add(Conv2D(96, 3, 3, border_mode='same', activation='relu'))
+model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
+model.add(Dropout(0.2))
+model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
+model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
 model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
-
-model.add(Conv2D(144, 3, 3, border_mode='same', activation='relu'))
-model.add(Conv2D(144, 3, 3, border_mode='same', activation='relu'))
-model.add(Conv2D(144, 3, 3, border_mode='same', activation='relu'))
-model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
-
-model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors
-model.add(Dense(64, activation='relu'))
-model.add(Dense(64, activation='relu'))
+model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
+model.add(Dropout(0.2))
+model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
+model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
+model.add(MaxPooling2D(pool_size=(2, 2),dim_ordering="th"))
+model.add(Flatten())
+model.add(Dropout(0.2))
+model.add(Dense(1024, activation='relu', kernel_constraint=maxnorm(3)))
+model.add(Dropout(0.2))
+model.add(Dense(512, activation='relu', kernel_constraint=maxnorm(3)))
+model.add(Dropout(0.2))
 model.add(Dense(6, activation='softmax'))
 
+# model.add(Conv2D(32, 3, 3, border_mode='same', activation='relu'))
+# model.add(Conv2D(32, 3, 3, border_mode='same', activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
+
+# model.add(Conv2D(64, 3, 3, border_mode='same', activation='relu'))
+# model.add(Conv2D(64, 3, 3, border_mode='same', activation='relu'))
+# model.add(Conv2D(64, 3, 3, border_mode='same', activation='relu'))
+# model.add(Conv2D(64, 3, 3, border_mode='same', activation='relu'))
+# model.add(Conv2D(64, 3, 3, border_mode='same', activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
+
+# model.add(Conv2D(128, 3, 3, border_mode='same', activation='relu'))
+# model.add(Conv2D(128, 3, 3, border_mode='same', activation='relu'))
+# model.add(Conv2D(128, 3, 3, border_mode='same', activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
+
+# model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors
+# model.add(Dense(64, activation='relu'))
+# model.add(Dense(64, activation='relu'))
+# model.add(Dense(6, activation='softmax'))
+
 # optimizer:
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+lrate = 0.01
+decay = lrate/nb_epoch
+sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
+model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 print ('Training....')
 hist = model.fit(X_train, y_train, nb_epoch=nb_epoch, batch_size=batch_size,
           validation_split=0.3, shuffle=True, verbose=1)
-
+print(model.summary());
 train_val_accuracy = hist.history;
 # set callback: https://github.com/sallamander/headline-generation/blob/master/headline_generation/model/model.py
 
