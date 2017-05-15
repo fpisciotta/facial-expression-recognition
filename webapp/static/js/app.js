@@ -50,7 +50,7 @@ $(function() {
       $('#image').cropper({
           aspectRatio: 1 / 1,
           autoCrop: true,
-          background:false
+          background:false,          
       });
       $container.animate({
         scrollLeft: scroll
@@ -137,8 +137,11 @@ $(function() {
 	   	} else {
 	       chart.clearChart();
 	   	}
-        
-        chart.draw(data);
+        var options = {'title':'Facial expression recognition prediction',
+                     'width':1300,
+                     'height':250};
+        chart.draw(data,options);
+        $("#bar-chart").show();
       }
 	
     }
@@ -193,6 +196,7 @@ $(function() {
       $("#upload_result, #upload_status").html("");
       $("#show_stream").hide();
     };
+    $("#bar-chart").hide();
     $("#discard_snapshot, #upload_snapshot, #api_url").hide();
     $("#take_snapshots").click(function() {take_snapshots(1);});
     $("#snapshots").on("click", ".item", select_snapshot);
