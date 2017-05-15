@@ -98,7 +98,7 @@ $(function() {
     };
 
     var showChart = function(response){
-    	
+    	/*
     	var data = {
 		  labels: ['Angry', 'Fear', 'Happy', 'Sad', 'Surprise', 'Neutral'],
 		  series: response.prediction
@@ -107,7 +107,7 @@ $(function() {
 		
 
 		Chartist.Bar('.ct-chart', data, options);
-		
+		*/
 	 
 		// Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});
