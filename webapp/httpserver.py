@@ -19,37 +19,37 @@ def get_home():
 @app.route('/api/evaluate', methods=['POST'])
 def hello():
     try:
-        json_request = request.get_json(silent=True)  
+        json_request = request.get_json(silent=True)
         image_str = json_request['image']
         image_str = image_str[image_str.find(",")+1:]
         byte_string = bytes(image_str, 'cp1252')
         #with open("test-64.txt", 'w') as f:
             #f.write(image_str)
-        image_64_decode = base64.decodestring(byte_string) 
+        image_64_decode = base64.decodestring(byte_string)
         with open("test.jpg","wb") as f:
             f.write(image_64_decode)
         #jpgfile = Image.open("test.jpg").convert('LA');
         img = Image.open('test.jpg').convert('L')
-        img.thumbnail((48,48), Image.ANTIALIAS)        
+        img.thumbnail((48,48), Image.ANTIALIAS)
         data = np.asarray(img.getdata()).reshape(img.size)
         print(data.shape)
         data = data.reshape(-1, 1, data.shape[0], data.shape[1])
-        
+
         model = load_model('model.json');
         #sgd
         lrate = 0.01
-        decay = lrate/50
+        decay = lrate/200
         sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
         model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
-        #adam                
+        #adam
         #model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
         y = model.predict(data)
         print(y);
 
     except Exception as error:
-        return json.dumps({'success':False, 'message' : repr(error)}), 500, {'ContentType':'application/json'} 
-    return json.dumps({'success':True, 'prediction' : y.tolist()}), 200, {'ContentType':'application/json'} 
+        return json.dumps({'success':False, 'message' : repr(error)}), 500, {'ContentType':'application/json'}
+    return json.dumps({'success':True, 'prediction' : y.tolist()}), 200, {'ContentType':'application/json'}
 @app.route('/pics/<path:path>')
 def get_pics(path):
     return send_from_directory('pics', path)
@@ -71,5 +71,4 @@ def add_header(r):
     return r
 
 if __name__ == "__main__":
-    app.run()
-
+    app.run(port=9009)

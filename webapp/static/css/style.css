@@ -404,8 +404,9 @@ h1, h2 {
 
 h1 {
   font: 700 1.75rem "Ubuntu", Helvetica, Verdana, sans-serif;
-  border-bottom: 0.5rem solid #2c3e50;
-  margin: 0 0 2rem 0;
+  /*border-bottom: 0.5rem solid #2c3e50;*/
+  margin: 11px 0 2rem 0;
+  text-align: center;
 }
 
 h2 {
