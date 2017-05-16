@@ -58,14 +58,13 @@ def load_data(sample_split=0.3, usage='Training', to_cat=True, verbose=True,
     x = np.array([mat for mat in data.pixels]) # (n_samples, img_width, img_height)
     X_train = x.reshape(-1, 1, x.shape[1], x.shape[2])
     y_train, new_dict = emotion_count(data.emotion, classes, verbose)
-    print (new_dict)
-    if to_cat:
-        y_train = to_categorical(y_train)
+    print (new_dict)    
+    y_train = to_categorical(y_train)
     return X_train, y_train, new_dict
 
 def save_data(X_train, y_train, fname='', folder='./data/'):
-    np.save(folder + 'X_train' + fname, X_train)
-    np.save(folder + 'y_train' + fname, y_train)
+    np.save(folder + 'X' + fname, X_train)
+    np.save(folder + 'y' + fname, y_train)
 
 if __name__ == '__main__':
     # makes the numpy arrays ready to use:
@@ -75,10 +74,22 @@ if __name__ == '__main__':
     X_train, y_train, emo_dict = load_data(sample_split=1.0,
                                             to_cat=False,
                                            classes=emo,
+                                           usage='Training',
+                                           verbose=True)
+    save_data(X_train, y_train, fname='_train')
+    X_train, y_train, emo_dict = load_data(sample_split=1.0,
+                                            to_cat=False,
+                                           classes=emo,
                                            usage='PrivateTest',
                                            verbose=True)
+    save_data(X_train, y_train, fname='_test_private')
+    X_train, y_train, emo_dict = load_data(sample_split=1.0,
+                                            to_cat=False,
+                                           classes=emo,
+                                           usage='PublicTest',
+                                           verbose=True)
     print ('Saving...')
-    save_data(X_train, y_train, fname='_privatetest6_100pct')
+    save_data(X_train, y_train, fname='_test_public')
     print (X_train.shape)
     print (y_train.shape)
     print ('Done!')
