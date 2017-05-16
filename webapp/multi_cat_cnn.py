@@ -15,14 +15,14 @@ X_fname = './data/X_train.npy'
 y_fname = './data/y_train.npy'
 X_train = np.load(X_fname)
 y_train = np.load(y_fname)
-X_test = np.load('data/X_test.npy')
-y_test = np.load('data/y_test.npy')
+X_test = np.load('data/X_test_public.npy')
+y_test = np.load('data/y_test_public.npy')
 X_train = X_train.astype('float32');
 X_test = X_test.astype('float32');
 print ('Lengths: ', len(X_train) ,len(y_train))
 
-y_train = to_categorical(y_train)
-y_test = to_categorical(y_test)
+#y_train = to_categorical(y_train)
+#y_test = to_categorical(y_test)
 # params:
 batch_size = 128
 nb_epoch = 100
@@ -34,6 +34,7 @@ print ('  img size: ', X_train.shape[2], X_train.shape[3])
 print ('batch size: ', batch_size)
 print ('  nb_epoch: ', nb_epoch)
 print ('Lengths: ', len(X_train) ,len(y_train))
+print ('Target: ', y_train)
 print ('Target: ', y_train)
 # model architecture:
 model = Sequential()
@@ -104,6 +105,7 @@ model.add(Dense(6, activation='softmax'))
 # model.add(Dense(6, activation='softmax'))
 
 # optimizer:
+<<<<<<< HEAD
 # lrate = 0.01
 # decay = lrate/nb_epoch
 # sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
@@ -111,6 +113,15 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 print ('Training....')
 hist = model.fit(X_train, y_train, nb_epoch=nb_epoch, batch_size=batch_size,
           validation_split=0.0, shuffle=True, verbose=1)
+=======
+lrate = 0.01
+decay = lrate/nb_epoch
+sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+print ('Training....')
+hist = model.fit(X_train, y_train, nb_epoch=nb_epoch, batch_size=batch_size,
+          validation_split=0.0, validation_data=None, shuffle=True, verbose=1)
+>>>>>>> c22b0518eb25f3741d6f04ad801317262cfca20f
 print(model.summary());
 train_val_accuracy = hist.history;
 # set callback: https://github.com/sallamander/headline-generation/blob/master/headline_generation/model/model.py
