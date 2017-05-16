@@ -1,3 +1,11 @@
+button#take_snapshots {
+    margin-left: 25%;
+    margin-top: 25px;
+}
+button#upload_snapshot {
+    margin-left: 25%;
+    margin-top: 25px;
+}
 * {
   box-sizing: border-box;
 }
