@@ -38,28 +38,50 @@ print ('Target: ', y_train)
 print ('Target: ', y_train)
 # model architecture:
 model = Sequential()
-model.add(Conv2D(32, (3, 3), input_shape=(1, X_train.shape[2], X_train.shape[3]), activation='relu', padding='same'))
-model.add(Dropout(0.2))
-model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
-model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
-model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
-model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
-model.add(Dropout(0.2))
-model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
-model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
-model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
-model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
-model.add(Dropout(0.2))
-model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
-model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
-model.add(MaxPooling2D(pool_size=(2, 2),dim_ordering="th"))
-model.add(Flatten())
-model.add(Dropout(0.2))
-model.add(Dense(1024, activation='relu', kernel_constraint=maxnorm(3)))
-model.add(Dropout(0.2))
-model.add(Dense(512, activation='relu', kernel_constraint=maxnorm(3)))
-model.add(Dropout(0.2))
+model.add(Conv2D(32,(3, 3), padding="same",activation='relu',input_shape=(1, X_train.shape[2], X_train.shape[3])))
+model.add(Conv2D(32,(3, 3), padding="same", activation='relu'))
+model.add(Conv2D(32,(3, 3), padding="same", activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2), data_format="channels_first"))
+
+model.add(Conv2D(64, (3, 3), activation="relu", padding="same"))
+model.add(Conv2D(64, (3, 3), activation="relu", padding="same"))
+model.add(Conv2D(64, (3, 3), activation="relu", padding="same"))
+model.add(MaxPooling2D(pool_size=(2, 2), data_format="channels_first"))
+
+model.add(Conv2D(128, (3, 3), activation="relu", padding="same"))
+model.add(Conv2D(128, (3, 3), activation="relu", padding="same"))
+model.add(Conv2D(128, (3, 3), activation="relu", padding="same"))
+model.add(MaxPooling2D(pool_size=(2, 2), data_format="channels_first"))
+
+model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors
+model.add(Dense(512, activation='relu'))
+model.add(Dense(512, activation='relu'))
 model.add(Dense(6, activation='softmax'))
+
+
+# model = Sequential()
+# model.add(Conv2D(32, (3, 3), input_shape=(1, X_train.shape[2], X_train.shape[3]), activation='relu', padding='same'))
+# model.add(Dropout(0.2))
+# model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
+# model.add(Conv2D(32, (3, 3), activation='relu', padding='same'))
+# model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
+# model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
+# model.add(Dropout(0.2))
+# model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
+# model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
+# model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering="th"))
+# model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
+# model.add(Dropout(0.2))
+# model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
+# model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
+# model.add(MaxPooling2D(pool_size=(2, 2),dim_ordering="th"))
+# model.add(Flatten())
+# model.add(Dropout(0.2))
+# model.add(Dense(1024, activation='relu', kernel_constraint=maxnorm(3)))
+# model.add(Dropout(0.2))
+# model.add(Dense(512, activation='relu', kernel_constraint=maxnorm(3)))
+# model.add(Dropout(0.2))
+# model.add(Dense(6, activation='softmax'))
 
 # model.add(Conv2D(32, 3, 3, border_mode='same', activation='relu'))
 # model.add(Conv2D(32, 3, 3, border_mode='same', activation='relu'))
@@ -83,6 +105,15 @@ model.add(Dense(6, activation='softmax'))
 # model.add(Dense(6, activation='softmax'))
 
 # optimizer:
+
+# lrate = 0.01
+# decay = lrate/nb_epoch
+# sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
+# model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+# print ('Training....')
+# hist = model.fit(X_train, y_train, nb_epoch=nb_epoch, batch_size=batch_size,
+#           validation_split=0.0, shuffle=True, verbose=1)
+
 lrate = 0.01
 decay = lrate/nb_epoch
 sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
