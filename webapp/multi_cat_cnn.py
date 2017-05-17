@@ -106,10 +106,10 @@ model.add(Dense(6, activation='softmax'))
 
 # optimizer:
 <<<<<<< HEAD
-# lrate = 0.01
-# decay = lrate/nb_epoch
-# sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+lrate = 0.01
+decay = lrate/nb_epoch
+sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
+# model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 print ('Training....')
 hist = model.fit(X_train, y_train, nb_epoch=nb_epoch, batch_size=batch_size,
           validation_split=0.0, shuffle=True, verbose=1)
