@@ -25,7 +25,7 @@ print ('Lengths: ', len(X_train) ,len(y_train))
 #y_test = to_categorical(y_test)
 # params:
 batch_size = 128
-nb_epoch = 100
+nb_epoch = 200
 
 # setup info:
 print ('X_train shape: ', X_train.shape) # (n_sample, 1, 48, 48)
@@ -105,15 +105,6 @@ model.add(Dense(6, activation='softmax'))
 # model.add(Dense(6, activation='softmax'))
 
 # optimizer:
-<<<<<<< HEAD
-lrate = 0.01
-decay = lrate/nb_epoch
-sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
-# model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-print ('Training....')
-hist = model.fit(X_train, y_train, nb_epoch=nb_epoch, batch_size=batch_size,
-          validation_split=0.0, shuffle=True, verbose=1)
-=======
 lrate = 0.01
 decay = lrate/nb_epoch
 sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
@@ -121,7 +112,6 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 print ('Training....')
 hist = model.fit(X_train, y_train, nb_epoch=nb_epoch, batch_size=batch_size,
           validation_split=0.0, validation_data=None, shuffle=True, verbose=1)
->>>>>>> c22b0518eb25f3741d6f04ad801317262cfca20f
 print(model.summary());
 train_val_accuracy = hist.history;
 # set callback: https://github.com/sallamander/headline-generation/blob/master/headline_generation/model/model.py
