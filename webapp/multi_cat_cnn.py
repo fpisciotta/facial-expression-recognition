@@ -5,7 +5,7 @@ from keras.layers import Activation, Dropout, Flatten, Dense
 from keras.constraints import maxnorm
 from keras.optimizers import SGD, RMSprop
 from keras.utils.np_utils import to_categorical
-from log import save_model, save_config, save_result
+from log import save_model, save_config, save_result,save_history
 # from fer2013data import load_data
 import numpy as np
 import sys
@@ -116,11 +116,12 @@ model.add(Dense(6, activation='softmax'))
 
 lrate = 0.01
 decay = lrate/nb_epoch
-sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+#sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
+rmsProp = RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
+model.compile(loss='categorical_crossentropy', optimizer=rmsProp, metrics=['accuracy'])
 print ('Training....')
 hist = model.fit(X_train, y_train, nb_epoch=nb_epoch, batch_size=batch_size,
-          validation_split=0.0, validation_data=None, shuffle=True, verbose=1)
+          validation_split=0.2, validation_data=None, shuffle=True, verbose=1)
 print(model.summary());
 train_val_accuracy = hist.history;
 # set callback: https://github.com/sallamander/headline-generation/blob/master/headline_generation/model/model.py
@@ -130,9 +131,10 @@ loss_and_metrics = model.evaluate(X_test, y_test, batch_size=batch_size, verbose
 print ('Done!')
 print ('Loss: ', loss_and_metrics[0])
 print (' Acc: ', loss_and_metrics[1])
-
+print(hist.history.keys());
 # model logging:
 notes = 'medium set 100'
 save_model(model, './data/results/')
+save_history(train_val_accuracy, './data/results/');
 #save_config(model.get_config(), './data/results/')
-#save_result(train_val_accuracy,loss_and_metrics, notes, './data/results/')
+save_result(train_val_accuracy,loss_and_metrics, notes, './data/results/')

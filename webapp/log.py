@@ -9,13 +9,17 @@ starttime = starttime.replace(":","-");
 def save_model(model, dirpath='./data/results/'):
     # serialize model to JSON
     model_json = model.to_json()
-    with open(dirpath+"model.json", "w") as json_file:
+    with open(dirpath+starttime+"model.json", "w") as json_file:
         json_file.write(model_json)
     # serialize weights to HDF5
     model.save_weights(dirpath+"model.h5")
     print("Saved model to disk")
     #with open(dirpath + starttime+'-model.txt', 'w') as f:
         #f.write(json_string)
+
+def save_history(history, dirpath='./data/results/'):
+    with open(dirpath +starttime+ '-history.txt', 'w') as f:
+        f.write(str(history) + '\n')
 
 def save_config(config, dirpath='./data/results/'):
     with open(dirpath + 'config_log.txt', 'a') as f:
