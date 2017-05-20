@@ -19,7 +19,8 @@ def save_model(model, dirpath='./data/results/'):
 
 def save_history(history, dirpath='./data/results/'):
     with open(dirpath +starttime+ '-history.txt', 'w') as f:
-        f.write(str(history) + '\n')
+        json.dump(history, f);
+        #f.write(str(history) + '\n')
 
 def save_config(config, dirpath='./data/results/'):
     with open(dirpath + 'config_log.txt', 'a') as f:
@@ -51,3 +52,9 @@ def load_model(filename,dirpath='./data/results/'):
     loaded_model.load_weights(dirpath+"model.h5");
     print("Loaded model from disk")
     return loaded_model;
+
+def load_history(filename,dirpath='./data/results/'):
+    with open(dirpath + filename, encoding = 'cp1252') as data_file: 
+        #decoded_data = data_file.decode('cp1252')   
+        data = json.load(data_file)
+    return data;
