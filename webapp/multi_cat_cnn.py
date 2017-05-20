@@ -57,6 +57,7 @@ model.add(Dense(512, activation='relu'))
 model.add(Dense(512, activation='relu'))
 model.add(Dense(6, activation='softmax'))
 
+#optimizer
 lrate = 0.01
 decay = lrate/nb_epoch
 sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
