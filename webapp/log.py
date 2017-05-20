@@ -12,7 +12,7 @@ def save_model(model, dirpath='./data/results/'):
     with open(dirpath+starttime+"model.json", "w") as json_file:
         json_file.write(model_json)
     # serialize weights to HDF5
-    model.save_weights(dirpath+"model.h5")
+    model.save_weights(dirpath+starttime+"model.h5")
     print("Saved model to disk")
     #with open(dirpath + starttime+'-model.txt', 'w') as f:
         #f.write(json_string)
