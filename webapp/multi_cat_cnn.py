@@ -24,7 +24,7 @@ print ('Lengths: ', len(X_train) ,len(y_train))
 #y_test = to_categorical(y_test)
 # params:
 batch_size = 128
-nb_epoch = 200
+nb_epoch = 100
 
 # setup info:
 print ('X_train shape: ', X_train.shape) # (n_sample, 1, 48, 48)
