@@ -43,13 +43,13 @@ def save_result(train_val_accuracy,model, notes, conv_arch=[(32,3),(64,3),(128,3
                 'Val acc: ' + str(val_acc[-1]) +
                 'Ratio: ' + str(val_acc[-1]/train_acc[-1]) + '\n')
 
-def load_model(filename,dirpath='./data/results/'):
-    json_file = open(dirpath+filename, 'r')
+def load_model(modelName,modelWeightName,dirpath='./data/results/'):
+    json_file = open(dirpath+modelName, 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     loaded_model = model_from_json(loaded_model_json)
     # load weights into new model
-    loaded_model.load_weights(dirpath+"model.h5");
+    loaded_model.load_weights(dirpath+modelWeightName);
     print("Loaded model from disk")
     return loaded_model;
 

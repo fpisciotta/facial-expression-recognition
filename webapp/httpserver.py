@@ -35,7 +35,7 @@ def hello():
         print(data.shape)
         data = data.reshape(-1, 1, data.shape[0], data.shape[1])
 
-        model = load_model('model.json');
+        model = load_model('model.json','model.h5');
         #sgd
         lrate = 0.01
         decay = lrate/100

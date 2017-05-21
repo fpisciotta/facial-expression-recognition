@@ -37,23 +37,49 @@ print ('Target: ', y_train)
 print ('Target: ', y_train)
 # model architecture:
 model = Sequential()
-model.add(Conv2D(32,(3, 3), padding="same",activation='relu',input_shape=(1, X_train.shape[2], X_train.shape[3])))
-model.add(Conv2D(32,(3, 3), padding="same", activation='relu'))
-model.add(Conv2D(32,(3, 3), padding="same", activation='relu'))
+# model.add(Conv2D(32,(3, 3), padding="same",activation='relu',input_shape=(1, X_train.shape[2], X_train.shape[3])))
+# model.add(Conv2D(32,(3, 3), padding="same", activation='relu'))
+# model.add(Conv2D(32,(3, 3), padding="same", activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2, 2), data_format="channels_first"))
+
+# model.add(Conv2D(64, (3, 3), activation="relu", padding="same"))
+# model.add(Conv2D(64, (3, 3), activation="relu", padding="same"))
+# model.add(Conv2D(64, (3, 3), activation="relu", padding="same"))
+# model.add(MaxPooling2D(pool_size=(2, 2), data_format="channels_first"))
+
+# model.add(Conv2D(128, (3, 3), activation="relu", padding="same"))
+# model.add(Conv2D(128, (3, 3), activation="relu", padding="same"))
+# model.add(Conv2D(128, (3, 3), activation="relu", padding="same"))
+# model.add(MaxPooling2D(pool_size=(2, 2), data_format="channels_first"))
+
+# model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors
+# model.add(Dense(512, activation='relu'))
+# model.add(Dense(512, activation='relu'))
+
+model.add(Conv2D(32, 3, 3, border_mode='same', activation='relu',
+                        input_shape=(1, X_train.shape[2], X_train.shape[3])))
+model.add(Dropout(0.2))
+model.add(Conv2D(32, 3, 3, border_mode='same', activation='relu'))
+model.add(Conv2D(32, 3, 3, border_mode='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), data_format="channels_first"))
 
-model.add(Conv2D(64, (3, 3), activation="relu", padding="same"))
-model.add(Conv2D(64, (3, 3), activation="relu", padding="same"))
-model.add(Conv2D(64, (3, 3), activation="relu", padding="same"))
+model.add(Conv2D(64, 3, 3, border_mode='same', activation='relu'))
+model.add(Dropout(0.2))
+model.add(Conv2D(64, 3, 3, border_mode='same', activation='relu'))
+model.add(Conv2D(64, 3, 3, border_mode='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), data_format="channels_first"))
 
-model.add(Conv2D(128, (3, 3), activation="relu", padding="same"))
-model.add(Conv2D(128, (3, 3), activation="relu", padding="same"))
-model.add(Conv2D(128, (3, 3), activation="relu", padding="same"))
+model.add(Conv2D(128, 3, 3, border_mode='same', activation='relu'))
+model.add(Dropout(0.2))
+model.add(Conv2D(128, 3, 3, border_mode='same', activation='relu'))
+model.add(Conv2D(128, 3, 3, border_mode='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2), data_format="channels_first"))
 
 model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors
-model.add(Dense(512, activation='relu'))
+model.add(Dropout(0.2))
+#model.add(Dense(64, activation='relu'))
+#model.add(Dense(64, activation='relu'))
+model.add(Dense(1024, activation='relu'))
 model.add(Dense(512, activation='relu'))
 model.add(Dense(6, activation='softmax'))
 
@@ -62,18 +88,18 @@ lrate = 0.01
 decay = lrate/nb_epoch
 sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
 #rmsProp = RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
-#model.compile(loss='categorical_crossentropy', optimizer=rmsProp, metrics=['accuracy'])
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+#model.compile(loss='categorical_crossentropy', optimizer='adagrad', metrics=['accuracy'])
 print ('Training....')
-hist = model.fit(X_train, y_train, nb_epoch=nb_epoch, batch_size=batch_size,
-          validation_split=0.3, validation_data=None, shuffle=True, verbose=1)
+hist = model.fit(X_train, y_train, nb_epoch=nb_epoch, batch_size=batch_size
+	, validation_data=(X_test, y_test), shuffle=True, verbose=1)
 print(model.summary());
 train_val_accuracy = hist.history;
 # set callback: https://github.com/sallamander/headline-generation/blob/master/headline_generation/model/model.py
 
 # model result:
 loss_and_metrics = model.evaluate(X_test, y_test, batch_size=batch_size, verbose=1)
-print ('Done!')
+
 print ('Loss: ', loss_and_metrics[0])
 print (' Acc: ', loss_and_metrics[1])
 print(hist.history.keys());

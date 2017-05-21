@@ -4,7 +4,7 @@ import numpy
 from log import load_history
 
 
-history = load_history('Fri May 19 17-48-57 2017-history.txt','./data/results/');
+history = load_history('Sun May 21 02-43-55 2017-history.txt','./data/results/');
 
 
 # summarize history for accuracy
