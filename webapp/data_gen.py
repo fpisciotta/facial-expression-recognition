@@ -58,7 +58,7 @@ def load_data(sample_split=0.3, usage='Training', to_cat=True, verbose=True,
     x = np.array([mat for mat in data.pixels]) # (n_samples, img_width, img_height)
     X_train = x.reshape(-1, 1, x.shape[1], x.shape[2])
     y_train, new_dict = emotion_count(data.emotion, classes, verbose)
-    print (new_dict)    
+    print (new_dict)
     y_train = to_categorical(y_train)
     return X_train, y_train, new_dict
 

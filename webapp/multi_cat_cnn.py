@@ -3,7 +3,7 @@ from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras.constraints import maxnorm
-from keras.optimizers import SGD, RMSprop
+from keras.optimizers import SGD, RMSprop,Adam
 from keras.utils.np_utils import to_categorical
 from log import save_model, save_config, save_result,save_history
 import numpy as np
@@ -14,9 +14,12 @@ X_fname = './data/X_train.npy'
 y_fname = './data/y_train.npy'
 X_train = np.load(X_fname)
 y_train = np.load(y_fname)
-X_test = np.load('data/X_test_public.npy')
-y_test = np.load('data/y_test_public.npy')
+X_val = np.load('data/X_test_public.npy')
+y_val = np.load('data/y_test_public.npy')
+X_test = np.load('data/X_test_private.npy')
+y_test = np.load('data/y_test_private.npy')
 X_train = X_train.astype('float32');
+X_val = X_val.astype('float32');
 X_test = X_test.astype('float32');
 print ('Lengths: ', len(X_train) ,len(y_train))
 
@@ -84,15 +87,16 @@ model.add(Dense(512, activation='relu'))
 model.add(Dense(6, activation='softmax'))
 
 #optimizer
-lrate = 0.01
+lrate = 0.001
 decay = lrate/nb_epoch
-sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
-#rmsProp = RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
-model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+#optimizer = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
+#optimizer = RMSprop(lr=lrate, rho=0.9, epsilon=1e-08, decay=decay)
+optimizer = Adam(lr=lrate,beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
 #model.compile(loss='categorical_crossentropy', optimizer='adagrad', metrics=['accuracy'])
 print ('Training....')
 hist = model.fit(X_train, y_train, nb_epoch=nb_epoch, batch_size=batch_size
-	, validation_data=(X_test, y_test), shuffle=True, verbose=1)
+	, validation_data=(X_val, y_val), shuffle=True, verbose=1)
 print(model.summary());
 train_val_accuracy = hist.history;
 # set callback: https://github.com/sallamander/headline-generation/blob/master/headline_generation/model/model.py
