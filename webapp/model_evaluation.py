@@ -8,9 +8,9 @@ X_train = np.load('data/X_train_full.npy')
 y_train = np.load('data/y_train_full.npy')
 X_test = np.load('data/X_test_private.npy')
 y_test = np.load('data/y_test_private.npy')
-nb_epoch = 500
+nb_epoch = 200
 batch_size = 128
-lrate = 0.01
+lrate = 0.001
 model = load_model('Mon May 22 02-26-23 2017model.json','Mon May 22 02-26-23 2017model.h5');
 decay = lrate/nb_epoch
 sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
