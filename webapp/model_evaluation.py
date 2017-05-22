@@ -4,14 +4,14 @@ from keras.models import Sequential
 from keras.optimizers import SGD, RMSprop
 from log import load_model
 
-X_train = np.load('data/X_train.npy')
-y_train = np.load('data/y_train.npy')
+X_train = np.load('data/X_train_full.npy')
+y_train = np.load('data/y_train_full.npy')
 X_test = np.load('data/X_test_private.npy')
 y_test = np.load('data/y_test_private.npy')
 nb_epoch = 500
 batch_size = 128
 lrate = 0.01
-model = load_model('Sun May 21 14-41-50 2017model.json','Sun May 21 14-41-50 2017model.h5');
+model = load_model('Mon May 22 02-26-23 2017model.json','Mon May 22 02-26-23 2017model.h5');
 decay = lrate/nb_epoch
 sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
 #rmsProp = RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0)

@@ -39,6 +39,7 @@ def load_data(sample_split=0.3, usage='Training', to_cat=True, verbose=True,
     df = pd.read_csv(filepath)
     # print df.tail()
     # print df.Usage.value_counts()
+    #df = df[(df.Usage == 'Training' | (df.Usage == 'PublicTest')]
     df = df[df.Usage == usage]
     frames = []
     classes.append('Disgust')
