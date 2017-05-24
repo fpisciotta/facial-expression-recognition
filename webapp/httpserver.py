@@ -38,7 +38,7 @@ def hello():
         model = load_model('bestModel.json','bestModel.h5');
         #sgd
         lrate = 0.01
-        decay = lrate/100
+        decay = lrate/200
         sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
         model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
         #adam

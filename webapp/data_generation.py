@@ -34,13 +34,13 @@ def emotion_count(y_train, classes, verbose=True):
         emo_classcount[_class] = (new_num, class_count)
     return y_train.values, emo_classcount
 
-def load_data(sample_split=0.3, usage='Training', to_cat=True, verbose=True,
+def load_data(sample_split=0.3, usage='Training',usage2 = '', to_cat=True, verbose=True,
               classes=['Angry','Happy'], filepath='./data/fer2013.csv'):
     df = pd.read_csv(filepath)
     # print df.tail()
     # print df.Usage.value_counts()
     #df = df[(df.Usage == 'Training' | (df.Usage == 'PublicTest')]
-    df = df[df.Usage == usage]
+    df = df[(df.Usage == usage) | (df.Usage == usage2)]
     frames = []
     classes.append('Disgust')
     for _class in classes:
@@ -69,7 +69,7 @@ def save_data(X_train, y_train, fname='', folder='./data/'):
 
 if __name__ == '__main__':
     # makes the numpy arrays ready to use:
-    print ('Making moves...')
+    print ('Generating data...')
     emo = ['Angry', 'Fear', 'Happy',
            'Sad', 'Surprise', 'Neutral']
     X_train, y_train, emo_dict = load_data(sample_split=1.0,
@@ -89,6 +89,13 @@ if __name__ == '__main__':
                                            classes=emo,
                                            usage='PublicTest',
                                            verbose=True)
+    X_train, y_train, emo_dict = load_data(sample_split=1.0,
+                                            to_cat=False,
+                                           classes=emo,
+                                           usage='Training',
+                                           usage2='PrivateTest',
+                                           verbose=True)
+    save_data(X_train, y_train, fname='_train_full')
     print ('Saving...')
     save_data(X_train, y_train, fname='_test_public')
     print (X_train.shape)

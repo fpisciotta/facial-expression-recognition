@@ -11,7 +11,7 @@ y_test = np.load('data/y_test_private.npy')
 nb_epoch = 200
 batch_size = 128
 lrate = 0.001
-model = load_model('Mon May 22 02-26-23 2017model.json','Mon May 22 02-26-23 2017model.h5');
+model = load_model('bestModel.json','bestModel.h5');
 decay = lrate/nb_epoch
 sgd = SGD(lr=lrate, momentum=0.9, decay=decay, nesterov=False)
 #rmsProp = RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
