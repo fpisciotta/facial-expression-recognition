@@ -13,6 +13,6 @@
 	
 	5. python httpserver.python
 	
-	6. Open the project on http://localhost:5000
+	6. Open the project on http://localhost:9009
 	
 ```
