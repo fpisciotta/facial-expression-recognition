@@ -11,7 +11,7 @@
 	
 	4. pip install -r requirements.txt
 	
-	5. python httpserver.python
+	5. python httpserver.py
 	
 	6. Open the project on http://localhost:9009
 	
